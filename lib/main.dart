@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies/app_router.dart';
+import 'package:movies/constants/my_colors.dart';
 
 void main() {
   runApp(MyApp(appRouter: AppRouter(),));
@@ -16,6 +17,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: appRouter.onGenerateRoute,
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(
+            color: MyColors.GREY,
+          ),
+        ),
+      ),
     );
   }
 }

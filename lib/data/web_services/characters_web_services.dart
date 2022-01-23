@@ -29,7 +29,7 @@ class CharactersWebServices
     try
     {
       Response response = await dio.get(allCharacters);
-      print(response.data.toString());
+      // print(response.data.toString());
       return response.data;
     }catch(error)
     {
