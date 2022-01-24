@@ -1,5 +1,6 @@
-import 'package:movies/data/models/characters.dart';
-import 'package:movies/data/web_services/characters_web_services.dart';
+import '../models/characters.dart';
+import '../models/quote.dart';
+import '../web_services/characters_web_services.dart';
 
 //  the main job of the repository it represents the data in a model. 
 class CharactersRepository
@@ -14,6 +15,11 @@ class CharactersRepository
   Future<List<Character>> getAllCharacters() async {
     final characters = await charactersWebServices.getAllCharacters();
     return characters.map((character) => Character.fromJson(character)).toList();
+  }
+
+  Future<List<Quote>> getCharacterQuotes(String charName) async {
+    final quotes = await charactersWebServices.getCharacterQuotes(charName);
+    return quotes.map((quote) => Quote.fromJson(quote)).toList();
   }
   
 }

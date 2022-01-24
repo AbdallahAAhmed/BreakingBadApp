@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:movies/app_router.dart';
-import 'package:movies/constants/my_colors.dart';
+import 'app_router.dart';
+import 'constants/my_colors.dart';
 
 void main() {
   runApp(MyApp(appRouter: AppRouter(),));
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
           iconTheme: IconThemeData(
-            color: MyColors.GREY,
+            color: MyColors.WHITE,
           ),
         ),
       ),

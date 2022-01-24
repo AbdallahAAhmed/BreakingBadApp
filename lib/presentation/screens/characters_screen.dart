@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies/bussiness_logic/cubit/characters_cubit.dart';
-import 'package:movies/constants/endpoints.dart';
-import 'package:movies/constants/my_colors.dart';
-import 'package:movies/data/models/characters.dart';
-import 'package:movies/presentation/widgets/character_item.dart';
+import 'package:flutter_offline/flutter_offline.dart';
+import '../../bussiness_logic/cubit/characters_cubit.dart';
+import '../../constants/my_colors.dart';
+import '../../data/models/characters.dart';
+import '../widgets/character_item.dart';
 
 class CharactersScreen extends StatefulWidget {
   const CharactersScreen({Key? key}) : super(key: key);
@@ -71,14 +71,15 @@ class _CharactersScreenState extends State<CharactersScreen> {
     }
   }
 
-  void _startSearch(){
-    ModalRoute.of(context)!.addLocalHistoryEntry(LocalHistoryEntry(onRemove: _stopSearching));
+  void _startSearch() {
+    ModalRoute.of(context)!
+        .addLocalHistoryEntry(LocalHistoryEntry(onRemove: _stopSearching));
     setState(() {
       _isSearching = true;
     });
   }
 
-  void _stopSearching(){
+  void _stopSearching() {
     _clearSearch();
 
     setState(() {
@@ -86,7 +87,7 @@ class _CharactersScreenState extends State<CharactersScreen> {
     });
   }
 
-  void _clearSearch(){
+  void _clearSearch() {
     setState(() {
       _searchTextController.clear();
     });
@@ -142,32 +143,75 @@ class _CharactersScreenState extends State<CharactersScreen> {
         shrinkWrap: true,
         physics: const ClampingScrollPhysics(),
         padding: EdgeInsets.zero,
-        itemCount: _searchTextController.text.isEmpty ? allCharacters.length : searchedForCharacters.length,
+        itemCount: _searchTextController.text.isEmpty
+            ? allCharacters.length
+            : searchedForCharacters.length,
         itemBuilder: (context, index) {
           return CharacterItem(
-            character: _searchTextController.text.isEmpty ? allCharacters[index] : searchedForCharacters[index],
+            character: _searchTextController.text.isEmpty
+                ? allCharacters[index]
+                : searchedForCharacters[index],
           );
         });
   }
 
   Widget _buildAppBarTitle() {
     return const Text(
-          'Characters',
-          style: TextStyle(
-            color: MyColors.GREY,
-          ),
-        );
+      'Characters',
+      style: TextStyle(
+        color: MyColors.GREY,
+      ),
+    );
+  }
+
+  Widget buildNoInternetWidget() {
+    return Center(
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Can\'t connect .. check internet',
+              style: TextStyle(
+                fontSize: 22,
+                color: MyColors.GREY,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Image.asset('assets/images/no_internet.png'),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: MyColors.GREY,
+        ),
         backgroundColor: MyColors.YELLOW,
         title: _isSearching ? _buildSearchField() : _buildAppBarTitle(),
         actions: _buildAppBarActions(),
       ),
-      body: buildBlocWidget(),
+      body: OfflineBuilder(
+        connectivityBuilder: (
+          BuildContext context,
+          ConnectivityResult connectivity,
+          Widget child,
+        ) {
+          final bool connected = connectivity != ConnectivityResult.none;
+          if (connected) {
+            return buildBlocWidget();
+          } else {
+            return buildNoInternetWidget();
+          }
+        },
+        child: showLoadingIndicator(),
+      ),
     );
   }
 }

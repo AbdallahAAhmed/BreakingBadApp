@@ -11,3 +11,10 @@ class CharactersLoaded extends CharactersState {
   final List<Character> character;
   CharactersLoaded(this.character);
 }
+
+// state when the data is loaded
+// Character Quotes
+class QuotesLoaded extends CharactersState {
+  final List<Quote> quote;
+  QuotesLoaded(this.quote);
+}
