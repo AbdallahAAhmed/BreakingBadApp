@@ -1,4 +1,4 @@
-# movies
+# BreakingBadApp
 
 A new Flutter project.
 
