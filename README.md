@@ -6,6 +6,8 @@ Breaking Bad App Created with Dart, Flutter, Rest API
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Setup](#setup)
+* [Show Short Video](https://drive.google.com/file/d/1ZCqsFWDTx8zs4rCBpUdm_Vz9OG6cht5B/view?usp=sharing)
+
 
 ## General info
 This project is a starting point for a Flutter application.
